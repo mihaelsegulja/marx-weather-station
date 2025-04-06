@@ -1,0 +1,18 @@
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq-marx
+    ports:
+      - "5672:5672"   # AMQP protocol (for backend)
+      - "15672:15672" # Management UI
+      - "1883:1883"   # MQTT protocol (for ESP32)
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    command: >
+      sh -c "rabbitmq-plugins enable --offline rabbitmq_mqtt && rabbitmq-server"
+
+volumes:
+  rabbitmq_data:
