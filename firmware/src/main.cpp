@@ -9,7 +9,6 @@ void connectToWiFi();
 void reconnectMQTT();
 void checkIaqSensorStatus();
 void errLeds();
-String getFormattedMac();
 
 // WiFi credentials
 const char* ssid = "neki ssid";
@@ -27,7 +26,6 @@ PubSubClient client(espClient);
 
 Bsec iaqSensor;
 uint8_t bme680I2cAddr = 0x77;
-String deviceMac;
 char payload[256];
 
 void setup()
@@ -42,9 +40,6 @@ void setup()
 
   iaqSensor.begin(bme680I2cAddr, Wire);
   checkIaqSensorStatus();
-  
-  deviceMac = getFormattedMac();
-  Serial.println("MAC: " + deviceMac);
 
   uint8_t nSensors = 8;
   bsec_virtual_sensor_t sensorList[nSensors] = {
@@ -73,8 +68,7 @@ void loop()
     digitalWrite(LED_BUILTIN, LOW);
 
     snprintf(payload, sizeof(payload),
-      "{\"mac\":\"%s\",\"iaq\":%.2f,\"staticIaq\":%.2f,\"co2\":%.2f,\"voc\":%.2f,\"pressure\":%.2f,\"gasResistance\":%.2f,\"temperature\":%.2f,\"humidity\":%.2f}",
-      deviceMac.c_str(),
+      "{\"iaq\":%.2f,\"staticIaq\":%.2f,\"co2\":%.2f,\"voc\":%.2f,\"pressure\":%.2f,\"gasResistance\":%.2f,\"temperature\":%.2f,\"humidity\":%.2f}",
       iaqSensor.iaq,
       iaqSensor.staticIaq,
       iaqSensor.co2Equivalent,
@@ -146,24 +140,4 @@ void errLeds()
   delay(100);
   digitalWrite(LED_BUILTIN, LOW);
   delay(100);
-}
-
-String getFormattedMac() {
-  // Get raw MAC address as a uint64_t
-  uint64_t macRaw = ESP.getEfuseMac();
-  
-  // Convert raw MAC to a string in HEX
-  String macString = String(macRaw, HEX);
-  macString.toUpperCase();
-
-  // Format it into XX:XX:XX:XX:XX:XX
-  String formattedMac = "";
-  for (int i = 0; i < macString.length(); i += 2) {
-    formattedMac += macString.substring(i, i + 2);
-    if (i < macString.length() - 2) {
-      formattedMac += ":";  // Add ":" between each pair of hex characters
-    }
-  }
-  
-  return formattedMac;
 }
