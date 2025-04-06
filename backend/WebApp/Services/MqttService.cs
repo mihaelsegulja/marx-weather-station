@@ -10,7 +10,7 @@ namespace WebApp.Services
     {
         private IMqttClient _mqttClient;
         private readonly DbMarxWeatherStationContext _context;
-        private const string MqttBrokerAddress = "172.19.0.2";
+        private const string MqttBrokerAddress = "127.0.0.1";
         private const string MqttTopic = "weather/data";  // Topic to which the ESP32 device sends data
 
         public MqttService(DbMarxWeatherStationContext context)
@@ -25,6 +25,7 @@ namespace WebApp.Services
             _mqttClient = factory.CreateMqttClient();
 
             var options = new MqttClientOptionsBuilder()
+                .WithCredentials("admin", "admin")
                 .WithTcpServer(MqttBrokerAddress)  // Setting the address of the MQTT broker
                 .Build();
 
