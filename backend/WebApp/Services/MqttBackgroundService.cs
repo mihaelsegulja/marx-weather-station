@@ -17,16 +17,16 @@ namespace WebApp.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
+            //while (!stoppingToken.IsCancellationRequested)
+            //{
                 using (var scope = _serviceScopeFactory.CreateScope())  // Create a scope for resolving services
                 {
                     var mqttService = scope.ServiceProvider.GetRequiredService<MqttService>();  // Get the MqttService from the scope
                     await mqttService.ConnectAndListenAsync();  // Call the method to connect to the MQTT broker
                 }
 
-                await Task.Delay(1000, stoppingToken);  // Delay before restarting the loop
-            }
+                await Task.Delay(Timeout.Infinite, stoppingToken);
+            //}
         }
     }
 }
