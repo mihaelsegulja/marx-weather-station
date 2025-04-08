@@ -1,6 +1,7 @@
-CREATE DATABASE dbMarxWeatherStation;
+CREATE DATABASE dbMarxWeatherStation
+GO
 
-use dbMarxWeatherStation
+USE dbMarxWeatherStation
 GO
 
 CREATE TABLE [WeatherData] (
@@ -14,5 +15,5 @@ CREATE TABLE [WeatherData] (
     [Pressure] float NOT NULL,
     [CompensatedHumidity] float NOT NULL,
     [GasResistance] float NOT NULL
-);
+)
 GO
