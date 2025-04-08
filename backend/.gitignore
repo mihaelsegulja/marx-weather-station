@@ -1,0 +1,15 @@
+# Visual Studio
+.vs/
+.vscode/
+.idea/
+bin/
+obj/
+
+# Rider (ako koristite JetBrains Rider IDE)
+.idea/
+
+# MacOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
