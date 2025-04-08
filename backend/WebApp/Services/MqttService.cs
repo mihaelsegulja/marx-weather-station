@@ -13,6 +13,7 @@ namespace WebApp.Services
         private const string MqttBrokerAddress = "127.0.0.1";
         private const string MqttTopic = "weather/data";  // Topic to which the ESP32 device sends data
 
+        private bool _isConnected = false; // Prevents multiple connections to the broker
         public MqttService(DbMarxWeatherStationContext context)
         {
             _context = context;
@@ -21,6 +22,8 @@ namespace WebApp.Services
         // This method connects to the MQTT broker and listens for messages asynchronously
         public async Task ConnectAndListenAsync()  // Changed to async and Task return type
         {
+            if (_isConnected) return; // If already connected, do not reconnect
+
             var factory = new MqttFactory();
             _mqttClient = factory.CreateMqttClient();
 
@@ -52,6 +55,7 @@ namespace WebApp.Services
             try
             {
                 await _mqttClient.ConnectAsync(options);  // Connect to the MQTT broker asynchronously
+                _isConnected = true; // Set flag to true after successful connection
             }
             catch (Exception ex)
             {
