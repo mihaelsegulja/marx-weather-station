@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Controllers.DTO;
+using WebApp.DTO;
 using WebApp.Model;
 
 namespace WebApp.Controllers
@@ -17,71 +17,22 @@ namespace WebApp.Controllers
             _context = context;
         }
 
-        
+        /// <summary>
+        /// Get all weather data
+        /// </summary>
         [HttpGet]
-        public ActionResult<IEnumerable<WeatherDataDTO>> GetAllWeatherData(int page = 1, int count = 10)
+        public IActionResult GetWeatherData()
         {
             try
             {
-                var weatherDataQuery = _context.WeatherData.Select(w => new WeatherDataDTO
-                {
-                    Id = w.Id,
-                    Iaq = w.Iaq,
-                    StaticIaq = w.StaticIaq,
-                    Co2equivalent = w.Co2equivalent,
-                    BreathVocEquivalent = w.BreathVocEquivalent,
-                    CompensatedTemperature = w.CompensatedTemperature,
-                    Pressure = w.Pressure,
-                    CompensatedHumidity = w.CompensatedHumidity,
-                    GasResistance = w.GasResistance
-                });
-
-                // Apply pagination
-                var pagedWeatherData = weatherDataQuery
-                    .Skip((page - 1) * count)
-                    .Take(count)           
-                    .ToList();
-
-                return Ok(pagedWeatherData);
+                var data = _context.WeatherData
+                    .ToList()
+                    .OrderByDescending(wd => wd.Timestamp);
+                return Ok(data);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        
-        [HttpGet("{id}")]
-        public ActionResult<WeatherDataDTO> GetWeatherDataById(int id)
-        {
-            try
-            {
-                var weatherData = _context.WeatherData
-                    .Where(w => w.Id == id)
-                    .Select(w => new WeatherDataDTO
-                    {
-                        Id = w.Id,
-                        Iaq = w.Iaq,
-                        StaticIaq = w.StaticIaq,
-                        Co2equivalent = w.Co2equivalent,
-                        BreathVocEquivalent = w.BreathVocEquivalent,
-                        CompensatedTemperature = w.CompensatedTemperature,
-                        Pressure = w.Pressure,
-                        CompensatedHumidity = w.CompensatedHumidity,
-                        GasResistance = w.GasResistance
-                    })
-                    .FirstOrDefault();
-
-                if (weatherData == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(weatherData);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
+                return BadRequest($"Error retrieving weather data: {ex.Message}");
             }
         }
     }

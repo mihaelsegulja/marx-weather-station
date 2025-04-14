@@ -1,19 +1,18 @@
+using Microsoft.EntityFrameworkCore;
 using WebApp.Model;
 using WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register MqttService as Scoped, because it depends on DbContext
-builder.Services.AddScoped<MqttService>();
-
-// Register MqttBackgroundService as Transient (not Singleton)
-builder.Services.AddTransient<IHostedService, MqttBackgroundService>();  // Use Transient, not Scoped or Singleton
-
-// Register other services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DbMarxWeatherStationContext>();
+builder.Services.AddDbContext<DbMarxWeatherStationContext>(options =>
+{
+    options.UseSqlServer("Name=ConnectionStrings:Default");
+});
+
+builder.Services.AddHostedService<RabbitMQConsumerService>();
 
 var app = builder.Build();
 
