@@ -18,7 +18,7 @@ public partial class DbMarxWeatherStationContext : DbContext
     public virtual DbSet<WeatherData> WeatherData { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=Default");
+        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:Default");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
