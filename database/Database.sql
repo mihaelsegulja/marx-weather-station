@@ -17,3 +17,8 @@ CREATE TABLE [WeatherData] (
     [GasResistance] float NOT NULL
 )
 GO
+
+CREATE INDEX IX_WeatherData_Timestamp_All
+ON WeatherData ([Timestamp])
+INCLUDE (Iaq, StaticIaq, CO2Equivalent, BreathVOCEquivalent, CompensatedTemperature, Pressure, CompensatedHumidity, GasResistance)
+GO
