@@ -1,53 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MARX Weather Station</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header>
-      <h1>MARX Weather Station</h1>
-      <select id="languageSelector">
-        <option value="en">EN</option>
-        <option value="hr">HR</option>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MARX Weather Station</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1 data-i18n="title">MARX Weather Station</h1>
+    <select id="languageSelector">
+      <option value="en">EN</option>
+      <option value="hr">HR</option>
+    </select>
+  </header>
+
+  <section id="controls">
+    <label for="timeRange" data-i18n="timeRange">Date/time range:</label>
+    <select id="timeRange">
+      <option value="Min5" data-i18n="min5">Last 5 min</option>
+      <option value="H1" data-i18n="h1">Last 1 hour</option>
+      <option value="H24" data-i18n="h24">Last 24 hours</option>
+      <option value="Mo1" data-i18n="mo1">Last month</option>
+      <option value="Y1" data-i18n="y1">Last year</option>
+      <option value="All" data-i18n="all">All time</option>
+    </select>
+    <button id="loadBtn" data-i18n="load">Load</button>
+  </section>
+
+  <section id="chartSection">
+    <canvas id="sensorChart"></canvas>
+  </section>
+
+  <section id="tableSection">
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th data-i18n="timestamp">Timestamp</th>
+          <th data-i18n="temp">Temp (°C)</th>
+          <th data-i18n="humidity">Humidity (%)</th>
+          <th data-i18n="voc">VOC</th>
+          <th data-i18n="iaq">IAQ</th>
+          <th data-i18n="pressure">Pressure (Pa)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    
+    <div id="pagination">
+      <button id="prevPage" data-i18n="prev">Previous</button>
+      <span id="pageInfo"></span>
+      <button id="nextPage" data-i18n="next">Next</button>
+      <label for="pageSizeSelect" data-i18n="rowsPerPage">Rows per page:</label>
+      <select id="pageSizeSelect">
+        <option value="10" selected>10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
       </select>
-    </header>
+    </div>
+  </section>
 
-    <section id="controls">
-      <label for="timeRange">Date/time range:</label>
-      <select id="timeRange">
-        <option value="5min">Last 5 min</option>
-        <option value="1h">Last 1 hour</option>
-        <option value="24h">Last 24 hours</option>
-        <option value="1mj">Last month</option>
-        <option value="1g">Last year</option>
-        <option value="all">All time</option>
-      </select>
-      <button id="loadBtn">Load</button>
-    </section>
-
-    <section id="chartSection">
-      <canvas id="sensorChart"></canvas>
-    </section>
-
-    <section id="tableSection">
-      <table id="dataTable">
-        <thead>
-          <tr>
-            <th>Timestamp</th>
-            <th>Temp (°C)</th>
-            <th>Humidity (%)</th>
-            <th>VOC</th>
-            <th>IAQ</th>
-            <th>Pressure (hPa)</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="main.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
