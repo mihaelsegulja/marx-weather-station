@@ -91,7 +91,7 @@ public class RabbitMQConsumerService : BackgroundService
 
                     await dbContext.WeatherData.AddAsync(entity, stoppingToken);
                     await dbContext.SaveChangesAsync(stoppingToken);
-                    _logger.LogInformation("Data saved to db");
+                    _logger.LogDebug("Data saved to db");
                 }
             }
             catch (Exception ex)
