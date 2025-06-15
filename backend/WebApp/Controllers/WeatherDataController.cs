@@ -100,6 +100,7 @@ public class WeatherDataController : ControllerBase
 
             var result = new
             {
+                Aggregation = timeRange.ToString(),
                 TotalCount = totalCount,
                 TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize),
                 CurrentPage = page,
