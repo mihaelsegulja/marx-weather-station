@@ -30,8 +30,8 @@ MARX-Weather-station/
 ### 1. Clone this repo
 
 ```shell
-git clone https://github.com/LovricA10/MARX-Weather-station.git
-cd MARX-Weather-station
+git clone https://github.com/mihaelsegulja/marx-weather-station.git
+cd marx-weather-station
 ```
 
 ### 2. Start and configure RabbitMQ 
