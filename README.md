@@ -1,6 +1,6 @@
 # Marx Weather Station
 
-**MARX: Weather Station** is an IoT project for monitoring air quality using an ESP32 and BME680 sensor. It collects sensor data, sends it via MQTT to a backend service, stores it in a SQL Server database, and allows data visualization for a given time period.
+**MARX: Weather Station** is an IoT project for monitoring air quality using an ESP32 and BME680 sensor. It collects sensor data, sends it via MQTT to a backend service, stores it in a SQL Server database, and visualizes data for a given time period.
 
 ## Project structure
 
